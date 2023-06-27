@@ -4,7 +4,7 @@ import com.aayar94.models.ApiResponse
 import com.aayar94.repository.HeroRepository
 import com.aayar94.repository.HeroRepositoryImpl
 import com.aayar94.repository.NEXT_PAGE_KEY
-import com.aayar94.repository.PREV_PAGE_KEY
+import com.aayar94.repository.PREVIOUS_PAGE_KEY
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.server.testing.*
@@ -228,6 +228,6 @@ class ApplicationTest {
         if (page == 5) {
             nextPage = null
         }
-        return mapOf(PREV_PAGE_KEY to prevPage, NEXT_PAGE_KEY to nextPage)
+        return mapOf(PREVIOUS_PAGE_KEY to prevPage, NEXT_PAGE_KEY to nextPage)
     }
 }
