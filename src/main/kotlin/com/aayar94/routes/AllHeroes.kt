@@ -20,7 +20,6 @@ fun Route.getAllHeroes() {
             require(page in 1..5)
 
             val apiResponse = heroRepository.getAllHeroes(page = page)
-
             call.respond(
                 message = apiResponse,
                 status = HttpStatusCode.OK

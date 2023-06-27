@@ -4,10 +4,9 @@ import com.aayar94.models.ApiResponse
 import com.aayar94.models.Hero
 
 const val NEXT_PAGE_KEY = "nextPage"
-const val PREV_PAGE_KEY = "prevPage"
+const val PREVIOUS_PAGE_KEY = "prevPage"
 
 class HeroRepositoryImpl : HeroRepository {
-
 
     override val heroes: Map<Int, List<Hero>> by lazy {
         mapOf(
@@ -399,16 +398,15 @@ class HeroRepositoryImpl : HeroRepository {
         )
     )
 
-
     override suspend fun getAllHeroes(page: Int): ApiResponse {
         return ApiResponse(
             success = true,
             message = "ok",
-            prevPage = calculatePage(page = page)[PREV_PAGE_KEY],
+            prevPage = calculatePage(page = page)[PREVIOUS_PAGE_KEY],
             nextPage = calculatePage(page = page)[NEXT_PAGE_KEY],
-            heroes = heroes[page]!!
+            heroes = heroes[page]!!,
+            lastUpdated = System.currentTimeMillis()
         )
-
     }
 
     private fun calculatePage(page: Int): Map<String, Int?> {
@@ -426,10 +424,30 @@ class HeroRepositoryImpl : HeroRepository {
         if (page == 5) {
             nextPage = null
         }
-        return mapOf(PREV_PAGE_KEY to prevPage, NEXT_PAGE_KEY to nextPage)
+        return mapOf(PREVIOUS_PAGE_KEY to prevPage, NEXT_PAGE_KEY to nextPage)
     }
 
     override suspend fun searchHeroes(name: String?): ApiResponse {
-        TODO("Not yet implemented")
+        return ApiResponse(
+            success = true,
+            message = "ok",
+            heroes = findHeroes(query = name)
+        )
+    }
+
+    private fun findHeroes(query: String?): List<Hero> {
+        val founded = mutableListOf<Hero>()
+        return if (!query.isNullOrEmpty()) {
+            heroes.forEach { (_, heroes) ->
+                heroes.forEach { hero ->
+                    if (hero.name.lowercase().contains(query.lowercase())) {
+                        founded.add(hero)
+                    }
+                }
+            }
+            founded
+        } else {
+            emptyList()
+        }
     }
 }

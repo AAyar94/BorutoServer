@@ -4,6 +4,7 @@ import com.aayar94.models.ApiResponse
 import com.aayar94.models.Hero
 
 interface HeroRepository {
+
     val heroes: Map<Int, List<Hero>>
 
     val page1: List<Hero>
@@ -14,4 +15,5 @@ interface HeroRepository {
 
     suspend fun getAllHeroes(page: Int = 1): ApiResponse
     suspend fun searchHeroes(name: String?): ApiResponse
+
 }

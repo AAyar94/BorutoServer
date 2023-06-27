@@ -5,15 +5,15 @@ import io.ktor.server.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.application.*
 import com.aayar94.routes.root
+import com.aayar94.routes.searchHeroes
 import io.ktor.server.http.content.*
 
 fun Application.configureRouting() {
     routing {
         root()
         getAllHeroes()
+        searchHeroes()
 
-        static("/images") {
-            resources("images")
-        }
+        staticResources(remotePath = "/images", basePackage = "images")
     }
 }
